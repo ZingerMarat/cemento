@@ -1,10 +1,11 @@
 import React from 'react';
+import Table from './components/Table';
 
 const initialTableData = {
   columns: [
     { id: "name", ordinalNo: 1, title: "Name", type: "string" },
-    { id: "email", ordinalNo: 2, title: "Email", type: "email" },
-    { id: "age", ordinalNo: 3, title: "Age", type: "number" },
+    { id: "age", ordinalNo: 2, title: "Age", type: "number" },
+    { id: "email", ordinalNo: 3, title: "Email", type: "email" },
     { id: "isActive", ordinalNo: 4, title: "Active", type: "boolean" },
     { id: "role", ordinalNo: 5, title: "Role", type: "select", options: ["Admin", "User", "Guest"] },
   ],
@@ -17,7 +18,10 @@ const initialTableData = {
 export default function App() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <div>Table will be here</div>
+      <Table 
+        columns={initialTableData.columns} 
+        data={initialTableData.data} 
+      />
     </div>
   );
 }
