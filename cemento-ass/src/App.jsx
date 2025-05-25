@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from './components/Table';
 
 const initialTableData = {
@@ -16,11 +16,22 @@ const initialTableData = {
 };
 
 export default function App() {
+
+  const [tableData, setTableData] = useState(initialTableData);
+
+  const handleCellChange = (rowId, columnId, newValue) => {
+    setTableData((prevData) => ({
+      ...prevData,
+      data: prevData.data.map((row) => row.id === rowId ? { ...row, [columnId]: newValue } : row),
+    }));
+  };
+
   return (
     <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <Table 
-        columns={initialTableData.columns} 
-        data={initialTableData.data} 
+        columns={tableData.columns} 
+        data={tableData.data}
+        onCellChange={handleCellChange}
       />
     </div>
   );
