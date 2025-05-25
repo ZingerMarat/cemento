@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from './components/Table';
 
 const initialTableData = {
@@ -17,8 +17,18 @@ const initialTableData = {
 
 export default function App() {
 
-  const [tableData, setTableData] = useState(initialTableData);
+  //const [tableData, setTableData] = useState(initialTableData);
 
+  const [tableData, setTableData] = useState(
+    localStorage.getItem('tableData') ? JSON.parse(localStorage.getItem('tableData')) : initialTableData
+  );
+
+  //save table data to local storage
+  useEffect(() => {
+    localStorage.setItem('tableData', JSON.stringify(tableData));
+  }, [tableData]);
+
+  //handle cell change
   const handleCellChange = (rowId, columnId, newValue) => {
     setTableData((prevData) => ({
       ...prevData,

@@ -1,5 +1,6 @@
 import React from 'react';
 
+//renderers for different column types
 const cellRenderers = {
     string: ({ value, onChange }) => (
                                         <input type="text" value={value || ''} onChange={(e) => onChange(e.target.value)} />
@@ -25,6 +26,8 @@ const cellRenderers = {
 };
 
 export default function TableCell({ column, value, onChange }) {
+    //use renderer for the column type or default to string renderer
     const renderer = cellRenderers[column.type] || cellRenderers.string;
+    
     return <td>{renderer({ value, onChange, column })}</td>;
 }
