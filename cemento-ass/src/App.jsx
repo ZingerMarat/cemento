@@ -52,17 +52,27 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <ColumnSelector 
-        columns={tableData.columns}
-        visibleColumns={visibleColumns}
-        onColumnToggle={handleColumnToggle}
-      />
-      <Table 
-        columns={tableData.columns} 
-        data={tableData.data}
-        onCellChange={handleCellChange}
-      />
+    <div style={{ display: "flex", justifyContent: "center", minHeight: "100vh", padding: 20 }}>
+      <div style={{ display: "flex", gap: 32, maxWidth: 1000, width: "100%" }}>
+        
+        <ColumnSelector
+          columns={tableData.columns}
+          visibleColumns={visibleColumns}
+          onColumnToggle={handleColumnToggle}
+        />
+  
+        <div style={{ flexGrow: 1 }}>
+          <Table
+            columns={tableData.columns
+              .filter(column => visibleColumns.includes(column.id))
+              .sort((a, b) => a.ordinalNo - b.ordinalNo)}
+            data={tableData.data}
+            onCellChange={handleCellChange}
+          />
+        </div>
+      </div>
     </div>
   );
+  
+  
 }
