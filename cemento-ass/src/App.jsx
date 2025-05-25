@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from './components/Table';
+import ColumnSelector from './components/ColomnSelector';
 
 const initialTableData = {
   columns: [
@@ -17,16 +18,24 @@ const initialTableData = {
 
 export default function App() {
 
-  //const [tableData, setTableData] = useState(initialTableData);
-
+  //get table data from local storage or use initial data
   const [tableData, setTableData] = useState(
     localStorage.getItem('tableData') ? JSON.parse(localStorage.getItem('tableData')) : initialTableData
+  );
+
+  const [visibleColumns, setVisibleColumns] = useState(
+    localStorage.getItem('visibleColumns') ? JSON.parse(localStorage.getItem('visibleColumns')) : tableData.columns.map((column) => column.id)
   );
 
   //save table data to local storage
   useEffect(() => {
     localStorage.setItem('tableData', JSON.stringify(tableData));
   }, [tableData]);
+
+  //save visible columns to local storage
+  useEffect(() => {
+    localStorage.setItem('visibleColumns', JSON.stringify(visibleColumns));
+  }, [visibleColumns]);
 
   //handle cell change
   const handleCellChange = (rowId, columnId, newValue) => {
@@ -36,8 +45,19 @@ export default function App() {
     }));
   };
 
+  //handle column toggle
+  const handleColumnToggle = (columnId) => {
+    setVisibleColumns(prev => prev.includes(columnId) ? prev.filter(id => id !== columnId) : [...prev, columnId]
+    );
+  };
+
   return (
     <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <ColumnSelector 
+        columns={tableData.columns}
+        visibleColumns={visibleColumns}
+        onColumnToggle={handleColumnToggle}
+      />
       <Table 
         columns={tableData.columns} 
         data={tableData.data}
