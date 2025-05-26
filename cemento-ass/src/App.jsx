@@ -5,7 +5,7 @@ import { fetchFakeData } from './mock/mockData';
 
 const BATCH_SIZE = 20;
 
-const COLUMNS = [
+const INITIAL_COLUMNS = [
   { id: "name", ordinalNo: 1, title: "Name", type: "string" },
   { id: "age", ordinalNo: 2, title: "Age", type: "number" },
   { id: "email", ordinalNo: 3, title: "Email", type: "email" },
@@ -14,27 +14,22 @@ const COLUMNS = [
 ];
 
 export default function App() {
-
+  //load initial columns from local storage
+  const initialColumns = JSON.parse(localStorage.getItem('columnOrder')) || INITIAL_COLUMNS;
+  
   const initialTableData = {
-    columns: COLUMNS,
+    columns: initialColumns,
     data: []
   }
 
-  //get table data from local storage or use initial data
-  const [tableData, setTableData] = useState(
-    //localStorage.getItem('tableData') ? JSON.parse(localStorage.getItem('tableData')) : initialTableData
-    initialTableData
-  );
-
+  const [tableData, setTableData] = useState(initialTableData);
   const [visibleColumns, setVisibleColumns] = useState(
-    //localStorage.getItem('visibleColumns') ? JSON.parse(localStorage.getItem('visibleColumns')) : tableData.columns.map((column) => column.id)
-    tableData.columns.map((column) => column.id)
+    JSON.parse(localStorage.getItem('visibleColumns')) || tableData.columns.map(column => column.id)
   );
-
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
 
-    //load more data
+  //load more data
   const loadMoreData = useCallback(async () => {
     setLoading(true);
     try {
@@ -94,8 +89,28 @@ export default function App() {
 
   //handle column toggle
   const handleColumnToggle = (columnId) => {
-    setVisibleColumns(prev => prev.includes(columnId) ? prev.filter(id => id !== columnId) : [...prev, columnId]
-    );
+    setVisibleColumns(prev => {
+      const newVisibleColumns = prev.includes(columnId) 
+        ? prev.filter(id => id !== columnId) 
+        : [...prev, columnId];
+
+      return newVisibleColumns;
+    });
+  };
+
+  const handleColumnOrderChange = (newColumns) => {
+    const updatedColumns = newColumns.map((col, index) => ({
+      ...col,
+      ordinalNo: index + 1
+    }));
+
+    setTableData(prev => ({
+      ...prev,
+      columns: updatedColumns
+    }));
+
+    // save new column order to local storage
+    localStorage.setItem('columnOrder', JSON.stringify(updatedColumns));
   };
 
   return (
@@ -106,6 +121,7 @@ export default function App() {
           columns={tableData.columns}
           visibleColumns={visibleColumns}
           onColumnToggle={handleColumnToggle}
+          onOrderChange={handleColumnOrderChange}
         />
   
         <div style={{ flexGrow: 1 }}>
