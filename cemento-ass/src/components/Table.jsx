@@ -1,8 +1,7 @@
 import React from 'react';
-import TableCell from './TableCell';
+import TableRow from './TableRow';
 
 export default function Table({columns, data, onCellChange}) {
-    
     return (
         <table>
             <thead>
@@ -14,11 +13,12 @@ export default function Table({columns, data, onCellChange}) {
             </thead>
             <tbody>
                 {data.map((row) => (
-                    <tr key={row.id}>
-                        {columns.map((column) => (
-                                <TableCell key={column.id} column={column} value={row[column.id]} onChange={(newValue) => onCellChange(row.id, column.id, newValue)}/>
-                        ))}
-                    </tr>
+                    <TableRow
+                        key={row.id}
+                        row={row}
+                        columns={columns}
+                        onCellChange={onCellChange}
+                    />
                 ))}
             </tbody>
         </table>
