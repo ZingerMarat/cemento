@@ -28,8 +28,8 @@ export default function App() {
   );
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
-  //load more data
   const loadMoreData = useCallback(async () => {
     setLoading(true);
     try {
@@ -68,6 +68,8 @@ export default function App() {
   //load more data on scroll
   useEffect(() => {
     const handleScroll = () => {
+      if (isDragging) return; // Пропускаем загрузку если идет перетаскивание
+      
       const bottom = window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100;
       if (bottom && !loading) {
         loadMoreData();
@@ -76,7 +78,7 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, loadMoreData]);
+  }, [loading, loadMoreData, isDragging]);
 
 
   //handle cell change
@@ -85,6 +87,7 @@ export default function App() {
       ...prevData,
       data: prevData.data.map((row) => row.id === rowId ? { ...row, [columnId]: newValue } : row),
     }));
+
   };
 
   //handle column toggle
@@ -114,16 +117,25 @@ export default function App() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", minHeight: "100vh", padding: 20 }}>
-      <div style={{ display: "flex", gap: 32, maxWidth: 1000, width: "100%" }}>
-        
-        <ColumnSelector
-          columns={tableData.columns}
-          visibleColumns={visibleColumns}
-          onColumnToggle={handleColumnToggle}
-          onOrderChange={handleColumnOrderChange}
-        />
-  
+    <div style={{ display: "flex", justifyContent: "center", minHeight: "100vh", padding: "20px 20px 0 20px" }}>
+      <div style={{ display: "flex", gap: 32, maxWidth: 1200, width: "100%" }}>
+        <div style={{ 
+          width: "200px", 
+          flexShrink: 0,
+          position: "sticky",
+          top: "20px",
+          alignSelf: "flex-start",
+          height: "fit-content"
+        }}>
+          <ColumnSelector
+            columns={tableData.columns}
+            visibleColumns={visibleColumns}
+            onColumnToggle={handleColumnToggle}
+            onOrderChange={handleColumnOrderChange}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={() => setIsDragging(false)}
+          />
+        </div>
         <div style={{ flexGrow: 1 }}>
           <Table
             columns={tableData.columns

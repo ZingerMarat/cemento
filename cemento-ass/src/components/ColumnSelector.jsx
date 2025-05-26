@@ -3,7 +3,14 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableItem } from './SortableItem';
 
-export default function ColumnSelector({ columns, visibleColumns, onColumnToggle, onOrderChange }) {
+export default function ColumnSelector({ 
+    columns, 
+    visibleColumns, 
+    onColumnToggle, 
+    onOrderChange,
+    onDragStart,
+    onDragEnd 
+}) {
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -17,6 +24,7 @@ export default function ColumnSelector({ columns, visibleColumns, onColumnToggle
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
+        onDragEnd();
         
         if (active.id !== over.id) {
             const oldIndex = columns.findIndex(col => col.id === active.id);
@@ -30,18 +38,25 @@ export default function ColumnSelector({ columns, visibleColumns, onColumnToggle
     };
 
     return (
-        <div style={{
-            width: "200px",
-            flexShrink: 0,
-            position: "sticky",
-            top: "20px",
-            alignSelf: "flex-start"
-        }}>
-            <h3>Column Selector</h3>
+        <div>
+            <h3 style={{
+                backgroundColor: '#FF5F1F',
+                color: '#000000',
+                padding: '12px',
+                margin: '0 0 20px 0',
+                border: '2px solid #000000',
+                boxShadow: '4px 4px 0 #000000',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                textAlign: 'center'
+            }}>Column Selector</h3>
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
+                onDragStart={onDragStart}
             >
                 <SortableContext
                     items={columns.map(col => col.id)}
