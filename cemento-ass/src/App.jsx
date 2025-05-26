@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Table from './components/Table';
-import ColumnSelector from './components/ColomnSelector';
+import ColumnSelector from './components/ColumnSelector';
 import { fetchFakeData } from './mock/mockData';
 
 const BATCH_SIZE = 20;

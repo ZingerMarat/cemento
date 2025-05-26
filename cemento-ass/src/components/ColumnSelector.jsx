@@ -20,4 +20,4 @@ export default function ColumnSelector({ columns, visibleColumns, onColumnToggle
             ))}
         </div>
     );
-}
+} 
