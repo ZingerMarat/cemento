@@ -68,7 +68,7 @@ export default function App() {
   //load more data on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (isDragging) return; // Пропускаем загрузку если идет перетаскивание
+      if (isDragging) return;
       
       const bottom = window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100;
       if (bottom && !loading) {
