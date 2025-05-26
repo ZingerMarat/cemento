@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Table from './components/Table';
 import ColumnSelector from './components/ColomnSelector';
-import generateData from './mock/mockData';
+import { fetchFakeData } from './mock/mockData';
 
-const ITEMS_PER_PAGE = 20;
-const TOTAL_ITEMS = 200;
+const BATCH_SIZE = 20;
 
 const COLUMNS = [
   { id: "name", ordinalNo: 1, title: "Name", type: "string" },
@@ -16,11 +15,9 @@ const COLUMNS = [
 
 export default function App() {
 
-  const allMockData = useMemo(() => generateData(TOTAL_ITEMS), []);
-
   const initialTableData = {
     columns: COLUMNS,
-    data: allMockData
+    data: []
   }
 
   //get table data from local storage or use initial data
@@ -34,6 +31,35 @@ export default function App() {
     tableData.columns.map((column) => column.id)
   );
 
+  const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+    //load more data
+  const loadMoreData = useCallback(async () => {
+    setLoading(true);
+    try {
+      setOffset(prevOffset => {
+        const newOffset = prevOffset + BATCH_SIZE;
+  
+        fetchFakeData(prevOffset, BATCH_SIZE)
+          .then((newData) => {
+            setTableData(prevData => ({...prevData, data: [...prevData.data, ...newData], }));
+            setLoading(false);
+          });
+  
+        return newOffset;
+      });
+    } catch (error) {
+      console.error("Error loading data:", error);
+      setLoading(false);
+    }
+  }, []);
+
+  //loading first batch of data
+  useEffect(() => {
+    loadMoreData()
+  }, [loadMoreData]);
+
   //save table data to local storage
   useEffect(() => {
     localStorage.setItem('tableData', JSON.stringify(tableData));
@@ -43,6 +69,20 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('visibleColumns', JSON.stringify(visibleColumns));
   }, [visibleColumns]);
+
+  //load more data on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const bottom = window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100;
+      if (bottom && !loading) {
+        loadMoreData();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, loadMoreData]);
+
 
   //handle cell change
   const handleCellChange = (rowId, columnId, newValue) => {
