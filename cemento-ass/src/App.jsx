@@ -1,30 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Table from './components/Table';
 import ColumnSelector from './components/ColomnSelector';
+import generateData from './mock/mockData';
 
-const initialTableData = {
-  columns: [
-    { id: "name", ordinalNo: 1, title: "Name", type: "string" },
-    { id: "age", ordinalNo: 2, title: "Age", type: "number" },
-    { id: "email", ordinalNo: 3, title: "Email", type: "email" },
-    { id: "isActive", ordinalNo: 4, title: "Active", type: "boolean" },
-    { id: "role", ordinalNo: 5, title: "Role", type: "select", options: ["Admin", "User", "Guest"] },
-  ],
-  data: [
-    { id: "1", name: "Alice", email: "alice@example.com", age: 28, isActive: true, role: "Admin" },
-    { id: "2", name: "Bob", email: "bob@example.com", age: 35, isActive: false, role: "User" },
-  ],
-};
+const ITEMS_PER_PAGE = 20;
+const TOTAL_ITEMS = 200;
+
+const COLUMNS = [
+  { id: "name", ordinalNo: 1, title: "Name", type: "string" },
+  { id: "age", ordinalNo: 2, title: "Age", type: "number" },
+  { id: "email", ordinalNo: 3, title: "Email", type: "email" },
+  { id: "isActive", ordinalNo: 4, title: "Active", type: "boolean" },
+  { id: "role", ordinalNo: 5, title: "Role", type: "select", options: ["Admin", "User", "Guest"] },
+];
 
 export default function App() {
 
+  const allMockData = useMemo(() => generateData(TOTAL_ITEMS), []);
+
+  const initialTableData = {
+    columns: COLUMNS,
+    data: allMockData
+  }
+
   //get table data from local storage or use initial data
   const [tableData, setTableData] = useState(
-    localStorage.getItem('tableData') ? JSON.parse(localStorage.getItem('tableData')) : initialTableData
+    //localStorage.getItem('tableData') ? JSON.parse(localStorage.getItem('tableData')) : initialTableData
+    initialTableData
   );
 
   const [visibleColumns, setVisibleColumns] = useState(
-    localStorage.getItem('visibleColumns') ? JSON.parse(localStorage.getItem('visibleColumns')) : tableData.columns.map((column) => column.id)
+    //localStorage.getItem('visibleColumns') ? JSON.parse(localStorage.getItem('visibleColumns')) : tableData.columns.map((column) => column.id)
+    tableData.columns.map((column) => column.id)
   );
 
   //save table data to local storage
