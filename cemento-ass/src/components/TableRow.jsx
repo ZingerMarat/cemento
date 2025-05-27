@@ -8,23 +8,25 @@ export default function TableRow({ row, columns, onCellChange }) {
                 <TableCell
                     key={column.id}
                     column={column}
-                    value={row[column.id]}
-                    onChange={(newValue) => onCellChange(row.id, column.id, newValue)}
-                    style={{
-                        backgroundColor: '#FF5F1F',
-                        color: '#000000',
-                        padding: '12px',
-                        border: '2px solid #000000',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        position: 'relative',
-                        boxShadow: '2px 2px 0 #000000',
-                        textAlign: 'center'
-                    }}
+                    value={row[column.id]}  // value = row['name'] = 'John Doe'
+                    onChange={(newValue) => onCellChange(row.id, column.id, newValue)} // onCellChange(1, 'name', 'Nico Nico')
+                    style={cellStyles}
                 />
             ))}
         </tr>
     );
+}
+
+
+const cellStyles = {
+    backgroundColor: '#FF5F1F',
+    color: '#000000',
+    padding: '12px', //padding in the cell
+    border: '2px solid #000000',
+    textTransform: 'uppercase', //make the text uppercase
+    letterSpacing: '0.5px', //spacing between the letters
+    fontSize: '14px', //font size
+    fontWeight: 'bold', //make the text bold
+    position: 'relative', //make the cell relative
+    textAlign: 'center' //center the text
 }

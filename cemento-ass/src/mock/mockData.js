@@ -11,7 +11,7 @@ const generateRowData = (id) => ({
     role: faker.helpers.arrayElement(ROLES),
   });
 
-export const fetchFakeData = (offset = 0, limit = 10) => {
+export const fetchFakeData = (offset, limit) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const rows = [];

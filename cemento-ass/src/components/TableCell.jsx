@@ -1,17 +1,5 @@
 import React from 'react';
 
-const inputStyles = {
-    width: '100%',
-    background: 'none',
-    border: 'none',
-    color: '#000000',
-    fontSize: '12px',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    outline: 'none'
-};
-
 //renderers for different column types
 const cellRenderers = {
     string: ({ value, onChange }) => (
@@ -35,12 +23,7 @@ const cellRenderers = {
             type="checkbox" 
             checked={Boolean(value)} 
             onChange={(e) => onChange(e.target.checked)}
-            style={{
-                ...inputStyles,
-                width: 'auto',
-                cursor: 'pointer',
-                accentColor: '#000000'
-            }}
+            style={{...inputStyles, width: 'auto', cursor: 'pointer', accentColor: '#000000'}}
         />
     ),
     email: ({ value, onChange }) => (
@@ -57,10 +40,9 @@ const cellRenderers = {
             onChange={(e) => onChange(e.target.value)}
             style={{
                 ...inputStyles,
-                cursor: 'pointer',
-                appearance: 'none',
-                WebkitAppearance: 'none',
-                MozAppearance: 'none'
+                cursor: 'pointer', //make the cursor a pointer
+                appearance: 'none', //remove the default appearance in the select
+                WebkitAppearance: 'none', // same for Chrome/Safary
             }}
         >
             {column.options.map((option) => (
@@ -70,11 +52,34 @@ const cellRenderers = {
             ))}
         </select>
     ),
+    button: ({ value }) => (
+        <button onClick={() => console.log('button clicked')}>
+            {value}
+        </button>
+    ),    
 };
 
 export default function TableCell({ column, value, onChange, style }) {
+
     //use renderer for the column type or default to string renderer
     const renderer = cellRenderers[column.type] || cellRenderers.string;
     
-    return <td style={style}>{renderer({ value, onChange, column })}</td>;
+    return (
+        <td style={{...style}}>
+            {renderer({ value, onChange, column })}
+        </td>
+    );
 }
+
+const inputStyles = {
+    maxWidth: '100%', //make the input take the full width of the cell
+    boxSizing: 'border-box',
+    background: 'none', //remove background in the input
+    border: 'none', //remove border in the input
+    color: '#000000', //make the text black
+    fontSize: '12px',
+    fontWeight: 'bold', //make the text bold
+    textAlign: 'center', //center the text
+    textTransform: 'uppercase', //make the text uppercase
+    outline: 'none', //remove the outline in the input
+};
