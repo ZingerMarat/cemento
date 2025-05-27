@@ -1,7 +1,11 @@
 import React from 'react';
 import TableCell from './TableCell';
+import { useTableStore } from '../store/useTableStore';
 
-export default function TableRow({ row, columns, onCellChange }) {
+export default function TableRow({ row, columns}) {
+
+    const updateCell = useTableStore(state => state.updateCell);
+
     return (
         <tr>
             {columns.map((column) => (
@@ -9,7 +13,9 @@ export default function TableRow({ row, columns, onCellChange }) {
                     key={column.id}
                     column={column}
                     value={row[column.id]}  // value = row['name'] = 'John Doe'
-                    onChange={(newValue) => onCellChange(row.id, column.id, newValue)} // onCellChange(1, 'name', 'Nico Nico')
+                    //onChange={(newValue) => onCellChange(row.id, column.id, newValue)} // onCellChange(1, 'name', 'Nico Nico')
+                    onChange={(newValue) => updateCell(row.id, column.id, newValue)}
+
                     style={cellStyles}
                 />
             ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 import TableRow from './TableRow';
 
-export default function Table({columns, data, onCellChange}) {
+export default function Table({columns, data}) {
     return (
         <table style={{ 
             width: '100%', 
@@ -38,7 +38,6 @@ export default function Table({columns, data, onCellChange}) {
                         key={row.id}
                         row={row}
                         columns={columns}
-                        onCellChange={onCellChange}
                     />
                 ))}
             </tbody>
