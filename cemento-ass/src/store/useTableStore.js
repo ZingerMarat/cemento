@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
 const INITIAL_COLUMNS = [
-  { id: "name", ordinalNo: 1, title: "Name", type: "string", width: 50 },
-  { id: "age", ordinalNo: 2, title: "Age", type: "number", width: 20 },
-  { id: "email", ordinalNo: 3, title: "Email", type: "email", width: 50 },
-  { id: "isActive", ordinalNo: 4, title: "Active", type: "boolean", width: 20 },
-  { id: "role", ordinalNo: 5, title: "Role", type: "select", options: ["Admin", "User", "Guest"], width: 20 },
+  { id: "name", ordinalNo: 1, title: "Name", type: "string", width: 150 },
+  { id: "age", ordinalNo: 2, title: "Age", type: "number", width: 80 },
+  { id: "email", ordinalNo: 3, title: "Email", type: "email", width: 200 },
+  { id: "isActive", ordinalNo: 4, title: "Active", type: "boolean", width: 80 },
+  { id: "role", ordinalNo: 5, title: "Role", type: "select", options: ["Admin", "User", "Guest"], width: 100 },
 ];
 
 const INITIAL_DATA = [

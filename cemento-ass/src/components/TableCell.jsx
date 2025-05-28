@@ -72,6 +72,7 @@ export default function TableCell({ column, value, onChange, style }) {
 }
 
 const inputStyles = {
+    width: '100%',
     maxWidth: '100%', //make the input take the full width of the cell
     boxSizing: 'border-box',
     background: 'none', //remove background in the input
@@ -82,4 +83,8 @@ const inputStyles = {
     textAlign: 'center', //center the text
     textTransform: 'uppercase', //make the text uppercase
     outline: 'none', //remove the outline in the input
+    padding: '0 8px', //padding in the input
+    whiteSpace: 'nowrap', //make the text nowrap
+    overflow: 'hidden', //hide the overflow in the input
+    textOverflow: 'ellipsis' //add ellipsis to the overflow in the input
 };
