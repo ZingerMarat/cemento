@@ -74,7 +74,7 @@ src/
 1. Clone the repository:
 ```bash
 git clone github.com/ZingerMarat/cemento
-cd project-folder
+cd cemento-app
 ```
 
 2. Install dependencies:
