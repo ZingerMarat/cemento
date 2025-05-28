@@ -1,8 +1,8 @@
-# Fullstack Test Assignment - Dynamic Table UI
+# Test Assignment - Dynamic Table UI
 
 ## Project Description
 
-This project is a dynamic and customizable data table built as part of a coding assignment for a Junior Full Stack Developer role. The table supports various data types, inline editing, column visibility toggling, drag-and-drop reordering, and infinite scrolling. The focus was on providing an efficient, optimized, and user-friendly UI/UX.
+This project is a dynamic and customizable data table built as part of a coding assignment for a Junior Developer role. The table supports various data types, inline editing, column visibility toggling, drag-and-drop reordering, and infinite scrolling. The focus was on providing an efficient, optimized, and user-friendly UI/UX.
 
 ---
 
@@ -21,10 +21,9 @@ This project is a dynamic and customizable data table built as part of a coding 
 ## Screenshots
 
 <div align="center">
-        <img src="https://github.com/ZingerMarat/cemento/blob/main/cemento-ass/public/Screenshot%2001.png" width="600"/>
+  <img src="https://github.com/ZingerMarat/cemento/blob/main/cemento-ass/public/Screenshot%2001.png" width="600"/>
   <img src="https://github.com/ZingerMarat/cemento/blob/main/cemento-ass/public/Screenshot%2002.png" width="600"/>
   <img src="https://github.com/ZingerMarat/cemento/blob/main/cemento-ass/public/Screenshot%2003.png" width="600"/>
-
 </div>
 
 ---
@@ -53,6 +52,8 @@ This project is a dynamic and customizable data table built as part of a coding 
 
 ```
 src/
+├── __tests__/
+│   ├── App.test.jsx          # Tests
 ├── components/
 │   ├── Table.jsx             # Main table component
 │   ├── TableRow.jsx          # Table row component
