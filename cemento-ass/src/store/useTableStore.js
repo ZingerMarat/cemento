@@ -9,7 +9,7 @@ const INITIAL_COLUMNS = [
 ];
 
 const INITIAL_DATA = [
-    { id: 0, name: "Rachel White", age: 26, email: "rachel.white@example.com", isActive: false, role: "User" },
+  { id: 0, name: "Rachel White", age: 26, email: "rachel.white@example.com", isActive: false, role: "User" },
   { id: 1, name: "John Doe", age: 25, email: "john.doe@example.com", isActive: true, role: "Admin" },
   { id: 2, name: "Jane Smith", age: 30, email: "jane.smith@example.com", isActive: false, role: "User" },
   { id: 3, name: "Alice Johnson", age: 28, email: "alice.johnson@example.com", isActive: true, role: "Guest" },
